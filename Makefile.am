@@ -93,3 +93,10 @@ cgminer_SOURCES += driver-ztex.c libztex.c libztex.h
 bitstreamsdir = $(bindir)/bitstreams
 dist_bitstreams_DATA = $(top_srcdir)/bitstreams/*
 endif
+
+if HAS_TYZ
+cgminer_SOURCES += driver-tyz.c libtyz.c libtyz.h
+bitstreamsdir = $(bindir)/bitstreams
+dist_bitstreams_DATA = $(top_srcdir)/bitstreams/*
+endif
+

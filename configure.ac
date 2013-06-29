@@ -279,6 +279,17 @@ if test "x$ztex" = xyes; then
 fi
 AM_CONDITIONAL([HAS_ZTEX], [test x$ztex = xyes])
 
+tyz="no"
+
+AC_ARG_ENABLE([tyz],
+	[AC_HELP_STRING([--enable-tyz],[Compile support for Tyz (default disabled)])],
+	[tyz=$enableval]
+	)
+if test "x$tyz" = xyes; then
+	AC_DEFINE([USE_TYZ], [1], [Defined to 1 if Tyz support is wanted])
+fi
+AM_CONDITIONAL([HAS_TYZ], [test x$tyz = xyes])
+
 curses="auto"
 
 AC_ARG_WITH([curses],
@@ -303,7 +314,7 @@ else
 	])
 fi
 
-AM_CONDITIONAL([NEED_FPGAUTILS], [test x$modminer$ztex != xnono])
+AM_CONDITIONAL([NEED_FPGAUTILS], [test x$modminer$ztex$tyz != xnonono])
 AM_CONDITIONAL([NEED_USBUTILS_C], [test x$avalon$bitforce$modminer$bflsc$icarus != xnonononono])
 AM_CONDITIONAL([HAVE_CURSES], [test x$curses = xyes])
 AM_CONDITIONAL([WANT_JANSSON], [test x$request_jansson = xtrue])
@@ -333,7 +344,7 @@ if test "x$have_cgminer_sdk" = "xtrue"; then
 	PKG_CONFIG_PATH="$CGMINER_SDK/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
 fi
 
-if test "x$avalon$ztex$modminer$bitforce$bflsc$icarus" != xnononononono; then
+if test "x$avalon$ztex$tyz$modminer$bitforce$bflsc$icarus" != xnonononononono; then
   case $target in
     *-*-freebsd*)
       LIBUSB_LIBS="-lusb"
@@ -457,14 +468,14 @@ if test "x$opencl" != xno; then
 
 	else
 		echo "  OpenCL...............: NOT FOUND. GPU mining support DISABLED"
-		if test "x$bitforce$avalon$icarus$ztex$modminer$bflsc" = xnononononono; then
+		if test "x$bitforce$avalon$icarus$ztex$tyz$modminer$bflsc" = xnonononononono; then
 			AC_MSG_ERROR([No mining configured in])
 		fi
 		echo "  scrypt...............: Disabled (needs OpenCL)"
 	fi
 else
 	echo "  OpenCL...............: Detection overrided. GPU mining support DISABLED"
-	if test "x$bitforce$icarus$avalon$ztex$modminer$bflsc" = xnononononono; then
+	if test "x$bitforce$icarus$avalon$ztex$tyz$modminer$bflsc" = xnonononononono; then
 		AC_MSG_ERROR([No mining configured in])
 	fi
 	echo "  scrypt...............: Disabled (needs OpenCL)"
@@ -515,6 +526,12 @@ if test "x$ztex" = xyes; then
 	echo "  Ztex.FPGAs...........: Enabled"
 else
 	echo "  Ztex.FPGAs...........: Disabled"
+fi
+
+if test "x$tyz" = xyes; then
+	echo "  Tyz.FPGAs............: Enabled"
+else
+	echo "  Tyz.FPGAs............: Disabled"
 fi
 
 echo

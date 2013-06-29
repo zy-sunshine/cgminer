@@ -32,7 +32,7 @@
 #define HAVE_AN_ASIC 1
 #endif
 
-#if defined(USE_BITFORCE) || defined(USE_ICARUS) || defined(USE_ZTEX) || defined(USE_MODMINER)
+#if defined(USE_BITFORCE) || defined(USE_ICARUS) || defined(USE_ZTEX) || defined(USE_TYZ) || defined(USE_MODMINER)
 #define HAVE_AN_FPGA 1
 #endif
 
@@ -182,6 +182,9 @@ static const char *DEVICECODE = ""
 #endif
 #ifdef USE_ZTEX
 			"ZTX "
+#endif
+#ifdef USE_TYZ
+			"TYZ "
 #endif
 #ifdef USE_MODMINER
 			"MMQ "
@@ -1247,6 +1250,10 @@ static int numpgas()
 		if (devices[i]->drv->drv_id == DRIVER_ZTEX)
 			count++;
 #endif
+#ifdef USE_TYZ
+		if (devices[i]->drv->drv_id == DRIVER_TYZ)
+			count++;
+#endif
 #ifdef USE_MODMINER
 		if (devices[i]->drv->drv_id == DRIVER_MODMINER)
 			count++;
@@ -1273,6 +1280,10 @@ static int pgadevice(int pgaid)
 #endif
 #ifdef USE_ZTEX
 		if (devices[i]->drv->drv_id == DRIVER_ZTEX)
+			count++;
+#endif
+#ifdef USE_TYZ
+		if (devices[i]->drv->drv_id == DRIVER_TYZ)
 			count++;
 #endif
 #ifdef USE_MODMINER
@@ -1718,6 +1729,10 @@ static void pgastatus(struct io_data *io_data, int pga, bool isjson, bool precom
 #ifdef USE_ZTEX
 		if (cgpu->drv->drv_id == DRIVER_ZTEX && cgpu->device_ztex)
 			frequency = cgpu->device_ztex->freqM1 * (cgpu->device_ztex->freqM + 1);
+#endif
+#ifdef USE_TYZ
+		if (cgpu->drv->drv_id == DRIVER_TYZ && cgpu->device_tyz)
+			frequency = cgpu->device_tyz->freqM1 * (cgpu->device_tyz->freqM + 1);
 #endif
 #ifdef USE_MODMINER
 		if (cgpu->drv->drv_id == DRIVER_MODMINER)

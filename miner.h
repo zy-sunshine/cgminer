@@ -125,6 +125,10 @@ static inline int fsync (int fd)
   #include "libztex.h"
 #endif
 
+#ifdef USE_TYZ
+  #include "libtyz.h"
+#endif
+
 #ifdef USE_USBUTILS
   #include "usbutils.h"
 #endif
@@ -226,6 +230,7 @@ enum drv_driver {
 	DRIVER_BITFORCE,
 	DRIVER_MODMINER,
 	DRIVER_ZTEX,
+	DRIVER_TYZ,
 	DRIVER_BFLSC,
 	DRIVER_AVALON,
 	DRIVER_MAX
@@ -437,6 +442,9 @@ struct cgpu_info {
 	union {
 #ifdef USE_ZTEX
 		struct libztex_device *device_ztex;
+#endif
+#ifdef USE_TYZ
+		struct libtyz_device *device_tyz;
 #endif
 #ifdef USE_USBUTILS
 		struct cg_usb_device *usbdev;

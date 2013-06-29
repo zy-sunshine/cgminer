@@ -42,6 +42,10 @@
 #define DRV_ZTEX 4
 #endif
 
+#ifdef USE_ZTEX
+#define DRV_TYZ 1
+#endif
+
 #ifdef USE_ICARUS
 #define DRV_ICARUS 5
 #endif
@@ -297,6 +301,23 @@ static struct usb_find_devices find_dev[] = {
 		.ident = IDENT_ZTX,
 		.idVendor = 0x221a,
 		.idProduct = 0x0100,
+		.kernel = 0,
+		.config = 1,
+		.interface = 1,
+		.timeout = 100,
+		.latency = LATENCY_UNUSED,
+		.epcount = 0,
+		.eps = NULL },
+#endif
+#ifdef USE_ZTEX
+// This is here so cgminer -n shows them
+// the tyz driver (as at 201306) doesn't use usbutils
+	{
+		.drv = DRV_TYZ,
+		.name = "TYZ",
+		.ident = IDENT_TYZ,
+		.idVendor = 0x2220,
+		.idProduct = 0x0101,
 		.kernel = 0,
 		.config = 1,
 		.interface = 1,
